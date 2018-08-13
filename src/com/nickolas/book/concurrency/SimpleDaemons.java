@@ -28,6 +28,8 @@ public class SimpleDaemons implements Runnable {
             try {
                 TimeUnit.MILLISECONDS.sleep(100);
             } catch (InterruptedException e) {
+                //TODO scs 怎么什么都打印不出来？
+                System.out.println(e.getClass().getCanonicalName() + ", " + e.getMessage());
                 e.printStackTrace();
             }
         }

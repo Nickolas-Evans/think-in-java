@@ -37,6 +37,6 @@ public class DaemonFromFactory implements Runnable {
         }
         executorService.shutdown();
         System.out.println("All daemons started.");
-        TimeUnit.MILLISECONDS.sleep(200);
+        TimeUnit.MILLISECONDS.sleep(168);
     }
 }
