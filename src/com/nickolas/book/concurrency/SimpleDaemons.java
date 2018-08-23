@@ -1,5 +1,7 @@
 package com.nickolas.book.concurrency;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class SimpleDaemons implements Runnable {
@@ -9,28 +11,18 @@ public class SimpleDaemons implements Runnable {
         return Thread.currentThread().toString();
     }
 
-    /**
-     * When an object implementing interface <code>Runnable</code> is used
-     * to create a thread, starting the thread causes the object's
-     * <code>run</code> method to be called in that separately executing
-     * thread.
-     * <p>
-     * The general contract of the method <code>run</code> is that it may
-     * take any action whatsoever.
-     *
-     * @see Thread#run()
-     */
     @Override
     public void run() {
+        System.out.println("isDaemon: " + Thread.currentThread().isDaemon());
         int i = 0;
+
         while (true) {
-            System.out.println(this + ": " +String.valueOf(i++));
+            System.out.println(this + ": " + String.valueOf(i++));
+
             try {
-                TimeUnit.MILLISECONDS.sleep(100);
+                TimeUnit.MILLISECONDS.sleep(500);
             } catch (InterruptedException e) {
-                //TODO scs 怎么什么都打印不出来？
-                System.out.println(e.getClass().getCanonicalName() + ", " + e.getMessage());
-                e.printStackTrace();
+                throw new RuntimeException("in thread, " + e.getMessage());
             }
         }
 
@@ -41,10 +33,16 @@ public class SimpleDaemons implements Runnable {
 
         Thread thread = new Thread(new SimpleDaemons());
         thread.setDaemon(true);
-        thread.start();
+//        thread.start();
+        ExecutorService executorService = Executors.newCachedThreadPool();
+        try {
+            executorService.execute(thread); // 往 execute 方法里投一个 Thread 蛇用没有
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
 
         System.out.println("One daemon has started.");
 
-        TimeUnit.SECONDS.sleep(3);
+        TimeUnit.SECONDS.sleep(1);
     }
 }
