@@ -36,6 +36,7 @@ public class SerialNumberChecker implements Runnable {
 
 
         // 启动 10 个线程去校验序列号生成器，如果有重复的元素则关闭线程
+        // 只有其中 9 个会暂停，最后一个因为再没有其他线程与他竞争，所以会一直"完美"地运行下去
         ExecutorService executor = Executors.newCachedThreadPool();
         for (int i = 0; i < 10; i++) {
             executor.execute(new SerialNumberChecker(i));
