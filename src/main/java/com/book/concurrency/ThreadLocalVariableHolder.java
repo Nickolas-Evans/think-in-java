@@ -8,6 +8,13 @@ import java.util.concurrent.TimeUnit;
 /**
  * 允许多线程操作 ThreadLocalVariableHolder 中的 ThreadLocal
  * 并输出操作结果
+ *
+ * Each thread holds an implicit reference to its copy of a thread-local variable
+ * as long as the thread is alive and the ThreadLocal instance is accessible;
+ * after a thread goes away, all of its copies of thread-local instances are
+ * subject to garbage collection (unless other references to these copies exist).
+ *
+ * unless other references to these copies exist 怎么理解这句话？？？
  */
 class Accessor implements Runnable {
 
