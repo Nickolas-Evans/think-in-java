@@ -32,14 +32,7 @@ class Accessor implements Runnable {
  * 内置一个 ThreadLocal 并提供 increment 和 get 方法
  */
 public class ThreadLocalVariableHolder {
-    private ThreadLocal<Integer> threadLocal = new ThreadLocal<>() {
-        @Override
-        protected Integer initialValue() {
-            return new Random().nextInt();
-        }
-
-
-    };
+    private ThreadLocal<Integer> threadLocal = ThreadLocal.withInitial(() -> new Random().nextInt());
 
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
