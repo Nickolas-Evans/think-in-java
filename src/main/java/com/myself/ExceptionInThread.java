@@ -1,4 +1,4 @@
-package com.slef;
+package com.myself;
 
 import java.util.Date;
 
