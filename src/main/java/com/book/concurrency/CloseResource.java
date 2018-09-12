@@ -29,7 +29,6 @@ public class CloseResource {
 
     public static void main(String[] args) throws Exception {
         new ServerSocket(8080); // 启动本地的 8080 端口
-        //TODO scs socket 链接在建立的时候就需要对方打开端口了？
 
         ExecutorService exec = Executors.newCachedThreadPool();
 
@@ -61,7 +60,8 @@ public class CloseResource {
         print("Closing " + socketInput.getClass().getName());
         socketInput.close(); // Releases blocked thread
 
-        //TODO scs 所以被 blocked 的 Thread 还不会被自动清理？
+        // 所以被 blocked 的 Thread 还不会被自动清理？
+        // 不会啊，等待 io 而 blocked 的线程 当然不会被自动清理，不然 io 来了，谁去处理？
         TimeUnit.SECONDS.sleep(1);
 
         print("Closing " + System.in.getClass().getName());
