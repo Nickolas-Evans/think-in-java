@@ -100,6 +100,16 @@ class WaxOff implements Runnable {
     }
 }
 
+
+/*
+    TODO scs 2018年10月09日21:21:28
+    理解了 java.util.concurrent.ExecutorService.shutdown javadoc 中的解释：
+    This method does not wait for previously submitted tasks to complete execution.
+    Use awaitTermination to do that.
+
+    看到 Using explicit Lock and Condition objects
+    待理解这个 WaxOMatic2 类
+ */
 public class WaxOMatic2 {
     public static void main(String[] args) throws Exception {
         Car car = new Car();
