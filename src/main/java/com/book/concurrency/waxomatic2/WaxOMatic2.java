@@ -11,6 +11,8 @@ import static com.book.net.mindview.util.Print.print;
 import static com.book.net.mindview.util.Print.printnb;
 
 class Car {
+    // Lock Condition 看上去像是 object monitor 锁的一个升级版
+    //TODO scs 看完了 Lock 的 API 待把 Condition 的 API 也看完，然后开始看 think in java 的生产者和消费者
     private Lock lock = new ReentrantLock();
     private Condition condition = lock.newCondition();
     private boolean waxOn = false;
