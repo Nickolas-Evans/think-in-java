@@ -12,12 +12,12 @@ import static com.book.net.mindview.util.Print.printnb;
 
 class Car {
     // Lock Condition 看上去像是 object monitor 锁的一个升级版
-    //TODO scs 看完了 Lock 的 API 待把 Condition 的 API 也看完，然后开始看 think in java 的生产者和消费者
+    // 是的！ 没错！！
     private Lock lock = new ReentrantLock();
     private Condition condition = lock.newCondition();
     private boolean waxOn = false;
 
-    public void waxed() {
+    void waxed() {
         lock.lock();
         try {
             waxOn = true; // Ready to buff
@@ -27,7 +27,7 @@ class Car {
         }
     }
 
-    public void buffed() {
+    void buffed() {
         lock.lock();
         try {
             waxOn = false; // Ready for another coat of wax
@@ -37,7 +37,7 @@ class Car {
         }
     }
 
-    public void waitForWaxing() throws InterruptedException {
+    void waitForWaxing() throws InterruptedException {
         lock.lock();
         try {
             while (waxOn == false)
@@ -47,7 +47,7 @@ class Car {
         }
     }
 
-    public void waitForBuffing() throws InterruptedException {
+    void waitForBuffing() throws InterruptedException {
         lock.lock();
         try {
             while (waxOn == true)
@@ -61,7 +61,7 @@ class Car {
 class WaxOn implements Runnable {
     private Car car;
 
-    public WaxOn(Car c) {
+    WaxOn(Car c) {
         car = c;
     }
 
@@ -83,7 +83,7 @@ class WaxOn implements Runnable {
 class WaxOff implements Runnable {
     private Car car;
 
-    public WaxOff(Car c) {
+    WaxOff(Car c) {
         car = c;
     }
 
@@ -104,13 +104,9 @@ class WaxOff implements Runnable {
 
 
 /*
-    TODO scs 2018年10月09日21:21:28
     理解了 java.util.concurrent.ExecutorService.shutdown javadoc 中的解释：
     This method does not wait for previously submitted tasks to complete execution.
     Use awaitTermination to do that.
-
-    看到 Using explicit Lock and Condition objects
-    待理解这个 WaxOMatic2 类
  */
 public class WaxOMatic2 {
     public static void main(String[] args) throws Exception {
