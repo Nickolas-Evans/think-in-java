@@ -1,10 +1,19 @@
 package com.book.concurrency;
 
+import static com.book.net.mindview.util.Print.print;
+
 public class LiftOff implements Runnable {
 
     private static int taskCount = 0;
-    private final int id = taskCount++;
-    protected int countDown = 10;
+    int countDown = 10;
+    private String id = String.valueOf(taskCount++);
+
+    LiftOff() {
+    }
+
+    LiftOff(String id) {
+        this.id = id;
+    }
 
     /**
      * When an object implementing interface <code>Runnable</code> is used
@@ -20,7 +29,7 @@ public class LiftOff implements Runnable {
     @Override
     public void run() {
         while (countDown-- > 0) {
-            System.out.print(this.status());
+            print(this.status());
             Thread.yield();
         }
     }

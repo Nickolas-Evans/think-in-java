@@ -6,6 +6,13 @@ import java.util.concurrent.TimeUnit;
 
 public class SleepingTask extends LiftOff {
 
+    public SleepingTask() {
+    }
+
+    public SleepingTask(String id) {
+        super(id);
+    }
+
     /**
      * When an object implementing interface <code>Runnable</code> is used
      * to create a thread, starting the thread causes the object's
