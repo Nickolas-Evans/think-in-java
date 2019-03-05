@@ -7,6 +7,11 @@ import org.apache.logging.log4j.Logger;
 public class Print {
     private static final Logger logger = LogManager.getLogger(Print.class);
 
+    public static void print() {
+        logger.info("");
+    }
+
+
     public static void print(String str) {
         logger.info(str);
     }
