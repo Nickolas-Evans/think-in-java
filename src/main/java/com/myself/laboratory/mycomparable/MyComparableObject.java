@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *
+ * java.lang.Comparable#compareTo(java.lang.Object) 方法与 for each， java.util.Iterator#next() 的关系
  */
 public class MyComparableObject implements Comparable<MyComparableObject> {
 

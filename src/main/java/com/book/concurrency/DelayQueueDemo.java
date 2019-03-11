@@ -51,11 +51,11 @@ class DelayedTask implements Runnable, Delayed {
     }
 
     public String toString() {
-        return String.format("[%1$-4d]", delta) + " Task " + id;
+        return "delta:" + String.format("[%1$-4d]", delta) + ", Task id#" + id;
     }
 
     private String summary() {
-        return "(" + id + ":" + delta + ")";
+        return "(Task id:" + id + ", delta:" + delta + ")";
     }
 
     public static class EndSentinel extends DelayedTask {
@@ -67,12 +67,14 @@ class DelayedTask implements Runnable, Delayed {
         }
 
         public void run() {
+            print();
+            print("summary by EndSentinel");
             for (DelayedTask pt : sequence) {
                 printnb(pt.summary() + " ");
             }
             print();
-            print(this + " Calling shutdownNow()");
-            exec.shutdownNow();
+//            print(this + "Calling shutdownNow()");
+//            exec.shutdownNow();
         }
     }
 }
@@ -109,6 +111,24 @@ public class DelayQueueDemo {
         // Set the stopping point
         queue.add(new DelayedTask.EndSentinel(5000, exec));
         exec.execute(new DelayedTaskConsumer(queue));
+
+        // Q: 如果不通过 EndSentinel，怎么关闭 ExecutorService？
+        // A: ExecutorService javadoc 中含有示例代码，如下
+        exec.shutdown(); // Disable new tasks from being submitted
+        try {
+            // Wait a while for existing tasks to terminate
+            if (!exec.awaitTermination(10, TimeUnit.SECONDS)) {
+                exec.shutdownNow(); // Cancel currently executing tasks
+                // Wait a while for tasks to respond to being cancelled
+                if (!exec.awaitTermination(10, TimeUnit.SECONDS))
+                    System.err.println("exec did not terminate");
+            }
+        } catch (InterruptedException ie) {
+            // (Re-)Cancel if current thread also interrupted
+            exec.shutdownNow();
+            // Preserve interrupt status
+            Thread.currentThread().interrupt();
+        }
     }
 
 }
